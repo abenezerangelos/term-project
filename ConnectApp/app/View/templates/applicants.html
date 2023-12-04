@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1> {{ current_position.title }}</h1>
+<table>
+    <thead>
+        <tr valign="bottom" align="left">
+            <th width="20%"> Name </th>
+            <th width="20%"> Status </th>
+            <th width="20%"> Status of other applications</th>
+        </tr>
+    </thead>
+    {% for application in current_position.submissions %}
+    {% set student = application.studentsapplied %}
+    <tr>
+        <td width="20%">{{ student.last_name }}, {{student.first_name}}</td>
+        <td width="20%">{{ application.status }}</td>
+        <td width="20%">
+            <ul>
+                {% if student.check_if_appliactions_for_list_out_is_none(current_position.id) %}
+                <li>None</li>
+                {% else %}
+                {% for appli in student.get_applications_for_list_out(current_position.id) %}
+                <li>{{appli.positionsapplied.title}} - {{appli.status}}</li>
+                {% endfor %}
+                {% endif %}
+            </ul>
+        </td>
+        <td width="20%"><a href="{{url_for('routes.qualification', positionid = current_position.id, studentid = student.id)}}"><button>View Qualifications</button></a></td>
+    </tr>
+{% endfor %}
+</table>
+<br>
+<a href="{{url_for('routes.index')}}"><button>Return to main page</button></a>
+{% endblock %}

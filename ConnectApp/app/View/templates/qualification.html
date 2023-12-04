@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if student %}
+    <h2>Student Information</h2>
+    <p>Major: {{ student.major }}</p>
+    <p>GPA: {{ student.gpa }}</p>
+    <p>Expected Graduation: {{ student.expected_graduation }}</p>
+    <p>Research Topic:</p>
+    <ul>
+        {% with rfields = student.research_fields %}
+        {% for rfield in rfields %}
+        <li>{{rfield.name}}</li>
+        {% endfor %}
+        {% endwith %}
+    </ul>
+    <p>Programming Language:</p>
+    <ul>
+        {% with plangs = student.programming_languages %}
+        {% for plang in plangs %}
+        <li>{{ plang.name }}</li>
+        {% endfor %}
+        {% endwith %}
+    </ul>
+    
+    
+    <p>Prior experience: {{student.prior_exp}}</p>
+    {% endif %}
+    <a href="{{url_for('routes.application', positionid = positionid, studentid = student.student_id)}}"><button>View Application</button></a>
+
+    <a href="{{url_for('routes.applicants', positionid = positionid)}}"><button>Return to applicants page</button></a>
+{% endblock %}

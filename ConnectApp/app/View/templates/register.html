@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Register</h1>
+
+    {% if form %}
+        <form action="" method="post" name="register">
+            {{ form.hidden_tag() }}
+
+            <p>{{ form.user_type.label }} {{ form.user_type(class='forminput') }}</p>
+            <p>{% for error in form.user_type.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>            
+
+            <p>{{ form.email.label }}</p>
+            <p>{{ form.email(class='forminput') }}</p>
+            <p>{% for error in form.email.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>
+
+            <p>{{ form.password.label }}</p>
+            <p>{{ form.password(class='textinput') }}</p>
+            <p>{% for error in form.password.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>
+
+            <p>{{ form.password2.label }} </p>
+            <p>{{ form.password2(class='textinput') }}</p>
+            <p>{% for error in form.password2.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>
+
+            <p>{{ form.first_name.label }}</p>
+            <p>{{ form.first_name(class='textinput') }}</p>
+            <p>{% for error in form.first_name.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>
+
+            <p>{{ form.last_name.label }}</p>
+            <p>{{ form.last_name(class='textinput') }}</p>
+            <p>{% for error in form.last_name.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>
+
+            <p>{{ form.wsu_id.label }}</p>
+            <p>{{ form.wsu_id(class='textinput') }}</p>
+            <p>{% for error in form.wsu_id.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>
+
+            <p>{{ form.phone_number.label }}</p>
+            <p>{{ form.phone_number(class='textinput') }}</p>
+            <p>{% for error in form.phone_number.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}</p>
+
+            
+            <div id="studentFields" style="display: none;">
+                <p>{{ form.major.label }}</p>
+                <p>{{ form.major(class='textinput') }}</p>
+                <p>{{ form.gpa.label }}</p>
+                <p>{{ form.gpa(class='textinput') }}</p>
+                <p>{{ form.expected_graduation.label }}</p>
+                <p>{{ form.expected_graduation(class='textinput') }}</p>
+                <p>{{ form.research_field.label }}</p>
+                <p>{{ form.research_field }}</p>
+                <p>{{ form.programming_language.label }}</p>
+                <p>{{ form.programming_language }}</p>
+                <p>{{ form.prior_exp.label }}</p>
+                <p>{{ form.prior_exp }}</p>
+            </div>
+            
+            <div id="facultyFields" style="display: none;">
+                <p>{{ form.department.label }}</p>
+                <p>{{ form.department(class='textinput') }}</p>
+            </div>
+
+            <p>{{ form.submit(class="button") }}</p>
+        </form>
+    {% endif %}
+    <script>
+        document.getElementById('user_type').addEventListener('change', function () {
+            var userType = this.value;
+            if (userType === 'Student') {
+                document.getElementById('studentFields').style.display = 'block';
+                document.getElementById('facultyFields').style.display = 'none';
+            } else if (userType === 'Faculty') {
+                document.getElementById('studentFields').style.display = 'none';
+                document.getElementById('facultyFields').style.display = 'block';
+            } else {
+                document.getElementById('studentFields').style.display = 'none';
+                document.getElementById('facultyFields').style.display = 'none';
+            }
+        });
+    </script>
+{% endblock %}

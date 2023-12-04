@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>&nbsp;Application Form</h1>
+
+    {% if form %}
+
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div>
+                &nbsp;Please write a short description of why you are interested in this position:<br>
+                {{ form.statement(disabled=true,class="formbody") }}<br>
+
+                <h4 style="font-style: italic;">&nbsp;Please provide the information of one reference.</h4>
+                &nbsp;Enter the name of the reference:
+                <br>
+                {{ form.faculty_name(disabled = true,class="reference") }}<br>
+                &nbsp;Enter the email of the reference:
+                <br>
+                {{ form.faculty_email(disabled = true,class="reference") }}<br>
+               
+            </div>
+        </form>
+        {% if application.status == "Pending" %}
+            <a href="{{url_for('routes.approve', positionid = positionid, studentid = studentid)}}"><button>Approve</button></a>
+            <a href="{{url_for('routes.applicants', positionid = positionid)}}"><button>Decline</button></a>
+        {% elif application.status == "Approved for Interview" %}
+            <a href="{{url_for('routes.hire', positionid = positionid, studentid = studentid)}}"><button>Hired</button></a>
+            <a href="{{url_for('routes.applicants', positionid = positionid)}}"><button>Not Hired</button></a>
+        {% else %}
+            <a href="{{url_for('routes.applicants', positionid = positionid)}}"><button>Return to Applicants</button></a>
+        {% endif %}
+    {% endif %}
+
+
+  {% endblock %}

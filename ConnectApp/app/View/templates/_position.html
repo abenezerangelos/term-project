@@ -1,0 +1,92 @@
+
+<table class = "posttable" style = "width:100%" valign="top">
+        <tr> 
+            <td colspan="3"><div class="posttitle"> {{position.title}}
+            </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="10%" >
+                
+                <div>  Posted by: {{position.faculty.last_name}}, {{position.faculty.first_name}} 
+                        <br>
+                        Contact information: {{position.faculty.phone_number}} 
+                </div>
+            </td>
+
+            <td width="80%" >
+                <div>
+                    Description: {{position.description}}   
+                </div>
+                <div>
+                    Other Requirement: {{position.qualification_description}}   
+                </div>
+                <div>
+                    Programming languages:
+                    {% with plangs = position.get_programming_languages().all() %}
+                    {% for plang in plangs %}
+                        <span class="tagitem">{{ plang.name }};</span>
+                        
+                    {% endfor %}
+                    {% endwith %}
+                    {% if current_user.is_student() %}
+                    {% if not current_user.has_application_for_position(position.id) %}
+                    <div class="applybutton">
+                        <a href = "{{url_for('routes.apply',position_id = position.id) }}">
+                            <button>Apply</button>
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="applybutton">Status: {{ current_user.get_application(position.id).status }} </div>
+                    {% endif %}
+                    {% endif %}
+                    <br>
+                    Research Field:
+                    {% with rfields = position.get_research_fields().all() %}
+                    {% for rfield in rfields %}
+                        <span class="tagitem">{{ rfield.name }};</span>
+                    {% endfor %}
+                    {% endwith %} 
+                </div>
+               <div class="date">
+                  
+                  Starts: {{ moment(position.start_date ).format('LL')}}
+                  <br>
+                  Ends: {{ moment(position.end_date).format('LL')}}
+               </div> 
+            </td> 
+
+            <td width = "5%"> 
+                <div>
+                    
+                    <br>
+                    <!-- (milestone1) TODO: include the likes count-->
+                    
+                </div>
+                <br> 
+                 
+                {% if current_user.is_student() == False and position.faculty_id == current_user.id %}  
+                    <a href="{{url_for('routes.applicants',positionid = position.id)}}">
+                        <button>View Students</button>
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+        
+        <tr> 
+            <td colspan="3" style = "text-align:center" valign="bottom">  
+                <br>
+                <!-- (milestone2) TODO: include all the tags associated with the post-->
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3" style = "text-align:center" valign="bottom">  
+                <br>
+                  <!-- (milestone3) TODO: include username who posted the post-->
+
+              </td>
+            </tr>
+        </tr>
+    </table>

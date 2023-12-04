@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Welcome to Connect app!</h1>
+    <!-- TODO: (milestone1) Display smile count.   -->
+    
+        <h2>Hi {{ faculty.first_name }}!</h2>
+        <div class = "positionlist">
+            {% for position in positions %}
+                {% include '_position.html' %}
+            {% endfor %}
+        </div>
+    
+    
+
+{% endblock %}

@@ -1,0 +1,45 @@
+<html>
+    <head>
+       {% if title %}
+          <title>{{ title }} - Research Positions </title>
+       {% else %}
+          <title> Welcome to Job Search! </title>
+       {% endif %}
+       <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+       {{ moment.include_moment() }}
+    </head>
+
+    <body>
+        <div class ="nav-container">
+        <table>
+            <tr>
+                <td><a href="{{ url_for('routes.index') }}" class = "button">Home</a></td>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.user_type == 'Faculty' %}
+                        <td><a href="{{ url_for('routes.post_position') }}" class="button">Post new position</a></td>
+                    {% endif %}
+                    <td><a href="{{ url_for('auth.logout') }}" class="button">Logout</a></td>
+                    <td><a href="{{ url_for('auth.profile') }}" class="button">View Profile</a></td> <!-- Add View Profile link -->
+                    <td> Current user is: <span class="useritem"> {{ current_user.username }} </span> </td>  
+                    {% else %}
+                    <td><a href="{{ url_for('auth.register') }}" class="button">Register</a></td>
+                    <td><a href="{{ url_for('auth.login') }}" class="button">Login</a></td>
+                    <td>Not Signed In</td>  
+                {% endif %}
+            </tr>
+        </table>
+        </div>
+        <div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div> {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {% block content %} {% endblock %}
+        </div>
+
+    </body>
+</html>
